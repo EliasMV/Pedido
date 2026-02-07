@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Pedido Especial 💖</title>
+
+<style>
+    /* ===============================
+        RESPONSIVO – iPhone 11 / 13
+    =============================== */
+  @media (max-width: 430px) {
+
+    body {
+      background-position: top !important;
+      background-size: 185% !important;
+      padding: 10px;
+    }
+
+    .container {
+      width: 350px !important;
+      max-width: 380px;
+      height: auto !important;
+      min-height: 700px;
+      background-size: unset !important;
+    }
+
+    h2 {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    h1 {
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+
+    .buttons {
+      margin-top: 80px;
+      height: 140px;
+    }
+
+    button {
+      font-size: 16px !important;
+      border-radius: 20px;
+      border-bottom-width: 6px;
+      border-right-width: 6px;
+    }
+
+    #yes {
+      text-align: center;
+      margin: 0;
+      bottom: 50px !important;
+      border-radius: 25px;
+    }
+
+    #yes2 {
+      text-align: center;
+      border-radius: 25px;
+      top: 80px !important;
+    }
+}
+
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        height: 100vh;
+        background-color: #fff;
+        background-image: url("bg-img3.jpg");
+        background-position: bottom;
+        background-size: 200%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .container {
+      background-image: url("nos2.jpg");
+      background-size: cover;
+      background-position: center;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 25px 25px rgba(0,0,0,0.2);
+      width: 450px;
+      height: 900px;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 15px;
+      margin-bottom: 0;
+      transition: 0.5s;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #000;
+      text-align: center;
+    }
+
+    h2 {
+        margin-top: 80px;
+        margin-bottom: 50px;
+        color: #000;
+        text-align: center;
+    }
+
+    .buttons {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 175px;
+        height: 120px;
+    }
+
+    button {
+        font-size: 24px;
+        font-weight: bold;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: 0.3s;
+        position: absolute;
+        border-bottom-style: solid;
+        border-bottom-color: #333333;
+        border-bottom-width: 7px;
+        border-right-style: solid;
+        border-right-width: 7px;
+        border-right-color: #333333;
+    }
+
+    #yes {
+        width: 70%;
+        padding: 10px 20px;
+        color: #fff;
+        bottom: 15px;
+        background: #000;
+    }
+
+    #yes2 {
+        width: 80%;
+        padding: 10px 20px;
+        color: #fff;
+        top: 150px;
+        background: #000;
+    }
+
+    #yes:active {
+      border-width: 0;
+      transform: translateY(5px);
+    }
+
+    #yes2:active {
+      border-width: 0;
+      transform: translateY(5px);
+    }
+  </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada id arcu ut laoreet. Nulla a sapien finibus, lacinia sapien vel, dictum ipsum. Nunc dignissim nisl non justo congue pellentesque.</h2>
+        <h1>Quer namorar comigo? ❤️</h1>
+
+        <div class="buttons">
+            <button id="yes">Sim, aceito! ❤️</button>
+            <button id="yes2">COM CERTEZA!! <p>Mas só depois de um beijinho 😘</p></button>
+        </div>
+    </div>
+
+  <script>
+    const yesBtn = document.getElementById("yes");
+    const yesBtn2 = document.getElementById("yes2");
+    const image = document.getElementById("image");
+
+    yesBtn.addEventListener("click", aceitar);
+    yesBtn2.addEventListener("click", aceitar);
+
+    function aceitar() {
+      image.src = "https://i.imgur.com/WxNkK7J.jpg";
+      document.querySelector("h1").innerText = "Sabia que você diria sim meu amor! 💕";
+      yesBtn.style.display = "none";
+      yesBtn2.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
