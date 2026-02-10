@@ -61,8 +61,13 @@
       top: 80px !important;
     }
 }
-
     
+    :root {
+      /* Curvas de easing globais */
+      --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+      --ease-elegant: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -71,14 +76,56 @@
     }
 
     body {
-        height: 100vh;
-        background-color: #fff;
-        background-image: url("bg-img3.jpg");
-        background-position: bottom;
-        background-size: 173%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      height: 100vh;
+      background-color: #fff;
+      background-image: url(bg-img3.jpg);
+      background-position: bottom;
+      background-size: 173%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      /* Começa invisível */
+      opacity: 0;
+      transition: opacity 1.8s var(--ease-soft);
+    }
+
+    /* Quando liberado */
+    body.unlocked {
+      opacity: 1;
+    }
+
+    /* OVERLAY */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      color: #fff;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+
+      z-index: 999;
+      transition: 
+        opacity 1s var(--ease-soft),
+        visibility 0s linear 1s;
+    }
+
+    #overlay p{
+      font-family: cursive;
+      font-size: 40px;
+    }
+
+    /* Overlay desaparecendo */
+    #overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
     }
 
     .container {
@@ -86,11 +133,27 @@
       background-image: url("nos2.jpg");
       background-size: cover;
       background-position: center;
-      padding: 80px;
+      padding: 66px;
       border-radius: 20px;
       box-shadow: 0 25px 25px rgba(0,0,0,0.2);
       width: 75%;
       height: 70%;
+
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 1.2s var(--ease-elegant),
+        transform 1.2s var(--ease-elegant);
+
+      /* Evita interação antes da hora */
+      pointer-events: none;
+    }
+
+    /* Container visível */
+    .container.visible {
+      opacity: 1;
+      transform: translateY(0px);
+      pointer-events: auto;
     }
 
     img {
@@ -164,60 +227,150 @@
       transform: translateY(5px);
     }
 
-.heart {
-  position: fixed;
-  font-size: 2rem;
-  top: -1vh;
-  transform: translateY(0);
-  animation: fall 3s linear forwards;
-}
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition:
+        opacity 0.9s var(--ease-elegant),
+        transform 0.9s var(--ease-elegant);
+    }
 
-@keyframes fall {
-  from {
-    transform: translateY(0vh) translateX(-10vw); 
-  }
-  to {
-    transform: translateY(105vh) translateX(10vw); 
-  }
-}
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* TEXTO INTERNO DO BOTÃO */
+    .reveal-inner {
+      opacity: 0;
+      transform: translateY(6px);
+      transition:
+        opacity 0.8s var(--ease-elegant),
+        transform 0.8s var(--ease-elegant);
+    }
+
+    .reveal-inner.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .heart {
+      position: fixed;
+      font-size: 2rem;
+      top: -1vh;
+      transform: translateY(0);
+      animation: fall 3s linear forwards;
+    }
+
+    @keyframes fall {
+      from {
+        transform: translateY(0vh) translateX(-10vw); 
+      }
+      to {
+        transform: translateY(105vh) translateX(10vw); 
+      }
+    }
   </style>
 </head>
-<body>
-  <audio autoplay>
-    <source src="yellow.mp3" type="audio/mpeg">
-  </audio>
-    <div class="container">
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada id arcu ut laoreet. Nulla a sapien finibus, lacinia sapien vel, dictum ipsum. Nunc dignissim nisl non justo congue pellentesque.</h2>
-        <h1>Quer namorar comigo? ❤️</h1>
+<body class="unlocked">
+  <div id="overlay">
+    <p>Clique em qualquer lugar da tela para continuar...</p>
+  </div>
+  <div class="container">
+      <h2 class="reveal">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam malesuada id arcu ut laoreet. Nulla a sapien finibus, lacinia sapien vel, dictum ipsum. Nunc dignissim nisl non justo congue pellentesque.</h2>
+      <h1 class="reveal">Quer namorar comigo? ❤️</h1>
 
-        <div class="buttons">
-            <button id="yes">Sim, aceito! ❤️</button>
-            <button id="yes2">COM CERTEZA!! <p>Mas só depois de um beijinho 😘</p></button>
-        </div>
-    </div>
-
+      <div class="buttons">
+          <button id="yes" class="reveal">Sim, aceito! ❤️</button>
+          <button id="yes2" class="reveal">COM CERTEZA!! <p class="reveal-inner">Mas só depois de um beijinho 😘</p></button>
+      </div>
+  </div>
+  
   <script>
     const yesBtn = document.getElementById("yes");
     const yesBtn2 = document.getElementById("yes2");
     const h1 = document.querySelector("h1");
+    const h2 = document.querySelector("h2");
+
+    var audio = new Audio('https://github.com/EliasMV/Pedido/blob/main/yellow.mp3?raw=true');
 
     yesBtn.addEventListener("click", aceitar);
     yesBtn2.addEventListener("click", aceitar);
 
-    yesBtn.addEventListener("click", createHeart);
-    yesBtn2.addEventListener("click", createHeart);
+    yesBtn.addEventListener("click", createHearts);
+    yesBtn2.addEventListener("click", createHearts);
+
+    const overlay = document.getElementById("overlay");
+    const container = document.querySelector(".container");
+    const reveals = document.querySelectorAll(".reveal");
+    const innerText = document.querySelector(".reveal-inner");
+
+    document.addEventListener(
+      "click",
+      () => {
+
+        //Começa a tocar a música (Yellow-Coldplay)
+        audio.play();
+
+        // 1. Remove overlay
+        overlay.classList.add("hidden");
+
+        // 2. Mostra background
+        requestAnimationFrame(() => {
+          document.body.classList.add("unlocked");
+        });
+
+        // 3. Mostra container
+        setTimeout(() => {
+          container.classList.add("visible");
+
+          // 4. Revelação sequencial
+          let delay = 700;
+
+          reveals.forEach((el) => {
+            let extraDelay = 700;
+
+            if (el.tagName === "H2") extraDelay = 8000;
+            if (el.tagName === "H1") extraDelay = 2000;
+            if (el.tagName === "BUTTON") extraDelay = 1000;
+
+            setTimeout(() => {
+              el.classList.add("visible");
+            }, delay);
+
+            delay += extraDelay;
+          });
+
+          // 5. Texto interno do botão (romântico 😘)
+          if (innerText) {
+            setTimeout(() => {
+              innerText.classList.add("visible");
+            }, delay + 400);
+          }
+        }, 900);
+      },
+      { once: true }
+    );
 
     function aceitar() {
       // Removendo itens da primeira visualização
-      document.querySelector("h2").innerText = "";
       yesBtn.style.display = "none";
       yesBtn2.style.display = "none";
 
-      //Ajustando itens da segunda visualização
-      h1.innerText = "Sabia que você diria sim meu amor! EU TE AMO ❤️";
-      h1.style.fontSize = "135px";
+      //Ajustando h2 para a segunda visualização
+      h2.innerHTML = "Sabia que você diria sim meu amor!";
+      h2.style.fontSize = "100px";
+      h2.style.fontFamily = "cursive";
+      h2.style.textAlign = "center";
+      h2.style.marginTop = "200px";
+      h2.style.marginBottom = "50px";
+
+      //Ajustando h1 para a segunda visualização
+      h1.innerHTML = "<br>EU TE AMO ❤️";
+      h1.style.fontSize = "100px";
       h1.style.fontFamily = "cursive";
       h1.style.textAlign = "center";
+      h1.style.fontWeight = "900"
     }
 
     function createHeart() {
@@ -236,7 +389,8 @@
       }, 5000);
     }
 
-    setInterval(createHeart, 300);
+    function createHearts(){setInterval(createHeart, 300);}
+    
 </script>
 </body>
 </html>
