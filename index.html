@@ -274,6 +274,7 @@
   </style>
 </head>
 <body class="unlocked">
+  <audio id="bg-music" src="yellow.mp3" preload="auto"></audio>
   <div id="overlay">
     <p>Clique em qualquer lugar da tela para continuar...</p>
   </div>
@@ -293,8 +294,6 @@
     const h1 = document.querySelector("h1");
     const h2 = document.querySelector("h2");
 
-    var audio = new Audio('https://github.com/EliasMV/Pedido/blob/main/yellow.mp3?raw=true');
-
     yesBtn.addEventListener("click", aceitar);
     yesBtn2.addEventListener("click", aceitar);
 
@@ -305,13 +304,33 @@
     const container = document.querySelector(".container");
     const reveals = document.querySelectorAll(".reveal");
     const innerText = document.querySelector(".reveal-inner");
+    const audio = document.getElementById("bg-music");
+
+    function fadeInAudio(audio, duration = 1500) {
+      const steps = 30;
+      const interval = duration / steps;
+      let currentStep = 0;
+
+      const fade = setInterval(() => {
+        currentStep++;
+        audio.volume = Math.min(currentStep / steps, 1);
+
+        if (currentStep >= steps) {
+          clearInterval(fade);
+        }
+      }, interval);
+    }
 
     document.addEventListener(
       "click",
       () => {
-
-        //Começa a tocar a música (Yellow-Coldplay)
-        audio.play();
+        
+        /* 🎵 ÁUDIO — TEM QUE SER AQUI, DIRETO */
+        audio.volume = 0;
+        audio.play().catch(() => {});
+        
+        /* Fade-in do áudio */
+        fadeInAudio(audio, 1500);
 
         // 1. Remove overlay
         overlay.classList.add("hidden");
